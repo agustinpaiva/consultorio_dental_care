@@ -1,9 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-// El middleware se ejecuta antes de cada petición.
-// Su trabajo es refrescar la sesión del usuario para que no expire.
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(
@@ -27,13 +25,11 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Refresca la sesión del usuario (necesario para que las cookies se mantengan actualizadas)
   await supabase.auth.getUser()
 
   return supabaseResponse
 }
 
-// Le dice a Next.js en qué rutas ejecutar el middleware (todas excepto archivos estáticos)
 export const config = {
   matcher: [
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
