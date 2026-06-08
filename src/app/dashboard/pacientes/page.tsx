@@ -5,6 +5,12 @@ import DeleteButton from '@/components/DeleteButton'
 import { eliminarPaciente } from './actions'
 import type { Paciente } from '@/types/paciente'
 
+function formatDate(date: string | null) {
+  if (!date) return '—'
+  const [year, month, day] = date.split('-')
+  return `${day}/${month}/${year}`
+}
+
 type Props = {
   searchParams: Promise<{ q?: string }>
 }
@@ -57,6 +63,7 @@ export default async function PacientesPage({ searchParams }: Props) {
               <tr>
                 <th className="px-4 py-3 text-left font-medium text-slate-600">Apellido y nombre</th>
                 <th className="px-4 py-3 text-left font-medium text-slate-600">DNI</th>
+                <th className="px-4 py-3 text-left font-medium text-slate-600">Fecha nac.</th>
                 <th className="px-4 py-3 text-left font-medium text-slate-600">Teléfono</th>
                 <th className="px-4 py-3 text-left font-medium text-slate-600">Obra social</th>
                 <th className="px-4 py-3 text-right font-medium text-slate-600">Acciones</th>
@@ -69,6 +76,7 @@ export default async function PacientesPage({ searchParams }: Props) {
                     {p.apellido}, {p.nombre}
                   </td>
                   <td className="px-4 py-3 text-slate-600">{p.dni}</td>
+                  <td className="px-4 py-3 text-slate-600">{formatDate(p.fecha_nacimiento)}</td>
                   <td className="px-4 py-3 text-slate-600">{p.telefono ?? '—'}</td>
                   <td className="px-4 py-3 text-slate-600">{p.obra_social ?? '—'}</td>
                   <td className="px-4 py-3 text-right">
