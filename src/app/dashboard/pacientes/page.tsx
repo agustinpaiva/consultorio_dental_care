@@ -4,12 +4,7 @@ import SearchInput from '@/components/SearchInput'
 import DeleteButton from '@/components/DeleteButton'
 import { eliminarPaciente } from './actions'
 import type { Paciente } from '@/types/paciente'
-
-function formatDate(date: string | null) {
-  if (!date) return '—'
-  const [year, month, day] = date.split('-')
-  return `${day}/${month}/${year}`
-}
+import { formatDate } from '@/lib/utils'
 
 type Props = {
   searchParams: Promise<{ q?: string }>
