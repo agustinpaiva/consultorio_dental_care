@@ -70,6 +70,33 @@ Todo pasa por **Server Actions** (`actions.ts`) o funciones de `/lib`.
 
 ---
 
+## Documentación por módulo (LEER antes de tocar)
+
+En `docs/` hay fichas técnicas por módulo, escritas para vos (el agente): rutas de archivos, flujos
+clave, invariantes que no hay que romper y trampas conocidas. Están para que **no tengas que releer
+todo el código** cada vez que hacés un cambio.
+
+**Regla:** antes de modificar un módulo que tenga ficha, **leé primero su `.md`**. No empieces a
+editar sin haberlo leído.
+
+Índice completo en `docs/README.md`. Resumen:
+
+| Módulo / tema | Ficha |
+|---|---|
+| Autenticación (signup/login/logout, `proxy.ts`) | `docs/auth.md` |
+| Pacientes (CRUD, soft-delete, búsqueda) | `docs/pacientes.md` |
+| Infraestructura (Supabase, env vars, Sidebar) | `docs/infraestructura.md` |
+
+> Si tocás un módulo sin ficha y aprendés algo no obvio sobre cómo está armado o qué lo rompe,
+> proponé crear/actualizar su `.md`.
+
+**Mantenimiento (regla):** después de modificar un módulo que tenga ficha, si el cambio invalidó
+algo que la ficha describe — un flujo, una invariante, la lista de archivos, o una trampa —
+**actualizá la ficha en el mismo cambio**. NO hace falta tocar la ficha por cada cambio chico (un
+fix interno que no cambia el flujo ni los contratos no la afecta). Solo cuando cambia el "mapa".
+
+---
+
 ## Supabase — cosas importantes
 
 - **Cliente browser** (`supabase-browser.ts`): para componentes client-side
@@ -123,7 +150,7 @@ Todo pasa por **Server Actions** (`actions.ts`) o funciones de `/lib`.
 Antes de cualquier fix, **buscá con grep todos los lugares que tocan el campo/función con problema**:
 
 - **Un componente muestra data incorrecta** → buscá quién llama la Server Action y qué retorna
-- **Error de autenticación** → revisá `middleware.ts` y el cliente server de Supabase
+- **Error de autenticación** → revisá `src/proxy.ts` (en Next.js 16 el auth-guard se llama `proxy`, no `middleware.ts` como en versiones anteriores) y el cliente server de Supabase
 - **Tipo TypeScript incorrecto** → revisá `/types` y el tipo retornado por Supabase
 - **NUNCA escribir un fix sin haber leído el código que produce el problema.**
 
